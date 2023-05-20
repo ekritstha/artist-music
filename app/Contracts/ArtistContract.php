@@ -23,10 +23,10 @@ interface ArtistContract
     /**
      * Store a new artist.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param $request
      * @return \App\Models\Artist
      */
-    public function store(Request $request);
+    public function store($request);
 
     /**
      * Update an existing artist.

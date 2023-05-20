@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Exports\ArtistExport;
+use App\Imports\ArtistImport;
 use App\Repositories\ArtistRepository;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ArtistService
 {
@@ -39,5 +42,16 @@ class ArtistService
     public function destroy($id)
     {
         return $this->artistRepo->destroy($id);
+    }
+
+    public function export()
+    {
+        $artists = $this->artistRepo->getAll();
+        return Excel::download(new ArtistExport($artists), 'artists.csv');
+    }
+
+    public function import($request)
+    {
+        Excel::import(new ArtistImport($this->artistRepo), $request['file']);
     }
 }

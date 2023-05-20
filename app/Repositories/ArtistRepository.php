@@ -42,7 +42,7 @@ class ArtistRepository implements ArtistContract
         return $pagination;
     }
 
-    public function store(Request $request)
+    public function store($request)
     {
         DB::insert('INSERT INTO artists (name, dob, gender, address, first_release_year, no_of_albums_released, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?,?)', [
             $request['name'],
@@ -91,5 +91,11 @@ class ArtistRepository implements ArtistContract
             [$id]
         );
         return true;
+    }
+
+    public function getAll()
+    {
+        $artists = DB::select('SELECT id, name, dob, address, gender, first_release_year, no_of_albums_released FROM artists');
+        return $artists;
     }
 }

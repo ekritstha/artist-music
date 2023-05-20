@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ArtistController;
+use App\Http\Controllers\Api\ImportExportController;
 use App\Http\Controllers\Api\MusicController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
@@ -22,16 +23,16 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group([], function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-});
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('artists', ArtistController::class);
     Route::apiResource('music', MusicController::class);
     Route::get('music/artists/{artist_id}', [MusicController::class, 'getArtistMusics']);
+    Route::get('export', [ImportExportController::class, 'export']);
+    Route::post('import', [ImportExportController::class, 'import']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
