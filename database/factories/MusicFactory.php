@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Artist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class MusicFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'artist_id' => Artist::factory()->create()->id,
+            'title' => $this->faker->word(),
+            'album_name' => $this->faker->word(),
+            'genre' => $this->faker->randomElement(['rnb', 'country', 'classic', 'rock', 'jazz']),
         ];
     }
 }

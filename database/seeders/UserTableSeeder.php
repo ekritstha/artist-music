@@ -15,16 +15,18 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'first_name' => 'Admin',
-            'last_name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('secret'),
-            'phone' => 1,
-            'gender' => 'm',
-            'dob' => Carbon::createFromFormat('Y-m-d', '2000-01-01'),
-            'address' => 'a'
-        ]);
-
+        $user = User::where('email', 'admin@admin.com')->first();
+        if(!$user) {
+            User::create([
+                'first_name' => 'Admin',
+                'last_name' => 'Admin',
+                'email' => 'admin@admin.com',
+                'password' => Hash::make('secret'),
+                'phone' => 1,
+                'gender' => 'm',
+                'dob' => Carbon::createFromFormat('Y-m-d', '2000-01-01'),
+                'address' => 'a'
+            ]);
+        }
     }
 }
