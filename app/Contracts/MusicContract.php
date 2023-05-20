@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 interface MusicContract
 {
     /**
-     * Get a paginated collection of musics.
+     * Get a paginated collection of music.
      *
      */
     public function index();

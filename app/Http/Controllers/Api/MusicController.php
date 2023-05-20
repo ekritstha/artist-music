@@ -20,15 +20,15 @@ class MusicController extends Controller
     }
 
     /**
-     * Get a collection of musics.
+     * Get a collection of music.
      *
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
         try {
-            $musics = $this->musicService->index($request);
-            return response()->json(["data" => $musics])->setStatusCode(200);
+            $music = $this->musicService->index($request);
+            return response()->json(["data" => $music])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -117,8 +117,8 @@ class MusicController extends Controller
     public function getArtistMusics(Request $request, $artist_id)
     {
         try {
-            $musics = $this->musicService->getArtistMusics($request, $artist_id);
-            return response()->json($musics)->setStatusCode(200);
+            $music = $this->musicService->getArtistMusics($request, $artist_id);
+            return response()->json($music)->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

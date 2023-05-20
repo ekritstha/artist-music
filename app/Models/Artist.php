@@ -19,7 +19,7 @@ class Artist extends Model
         'no_of_albums_released'
     ];
 
-    public function musics(): HasMany
+    public function music(): HasMany
     {
         return $this->hasMany(Music::class);
     }

@@ -30,8 +30,8 @@ Route::group([], function () {
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('artists', ArtistController::class);
-    Route::apiResource('musics', MusicController::class);
-    Route::get('musics/artists/{artist_id}', [MusicController::class, 'getArtistMusics']);
+    Route::apiResource('music', MusicController::class);
+    Route::get('music/artists/{artist_id}', [MusicController::class, 'getArtistMusics']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });

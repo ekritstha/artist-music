@@ -21,12 +21,12 @@ class MusicRepository implements MusicContract
     {
         $offset = ($page - 1) * $perPage;
 
-        $results = DB::select("SELECT m.id, m.artist_id, m.title, m.album_name, m.genre, a.name AS artist_name FROM musics m JOIN artists a ON m.artist_id = a.id LIMIT :perPage OFFSET :offset", [
+        $results = DB::select("SELECT m.id, m.artist_id, m.title, m.album_name, m.genre, a.name AS artist_name FROM music m JOIN artists a ON m.artist_id = a.id LIMIT :perPage OFFSET :offset", [
             'perPage' => $perPage,
             'offset' => $offset,
         ]);
 
-        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM musics")->count;
+        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM music")->count;
 
         $pagination = [
             'data' => $results,
@@ -44,7 +44,7 @@ class MusicRepository implements MusicContract
 
     public function store(Request $request)
     {
-        DB::insert('INSERT INTO musics (artist_id, title, album_name, genre, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)', [
+        DB::insert('INSERT INTO music (artist_id, title, album_name, genre, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)', [
             $request['artist_id'],
             $request['title'],
             $request['album_name'],
@@ -58,7 +58,7 @@ class MusicRepository implements MusicContract
     public function show($id)
     {
         $music = DB::select('SELECT m.id, m.artist_id, m.title, m.album_name, m.genre, a.name AS artist_name
-        FROM musics m
+        FROM music m
         JOIN artists a ON m.artist_id = a.id
         WHERE m.id = ?', [$id]);
         if(count($music) == 0) {
@@ -69,7 +69,7 @@ class MusicRepository implements MusicContract
 
     public function update(Request $request, $id)
     {
-        DB::update('UPDATE musics SET artist_id = ?, title = ?, album_name = ?, genre = ?, updated_at = ? WHERE id = ?', [
+        DB::update('UPDATE music SET artist_id = ?, title = ?, album_name = ?, genre = ?, updated_at = ? WHERE id = ?', [
             $request['artist_id'],
             $request['title'],
             $request['album_name'],
@@ -82,7 +82,7 @@ class MusicRepository implements MusicContract
 
     public function destroy($id)
     {
-        DB::delete('DELETE FROM musics WHERE id = ?', [$id]);
+        DB::delete('DELETE FROM music WHERE id = ?', [$id]);
         return true;
     }
 
@@ -90,14 +90,14 @@ class MusicRepository implements MusicContract
     {
         $offset = ($page - 1) * $perPage;
 
-        $results = DB::select("SELECT m.id, m.title, m.album_name, m.genre, a.name AS artist_name FROM musics m JOIN artists a ON m.artist_id = a.id LIMIT :perPage OFFSET :offset", [
+        $results = DB::select("SELECT m.id, m.title, m.album_name, m.genre, a.name AS artist_name FROM music m JOIN artists a ON m.artist_id = a.id LIMIT :perPage OFFSET :offset", [
             'perPage' => $perPage,
             'offset' => $offset,
         ]);
 
-        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM musics")->count;
+        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM music")->count;
 
-        $musics = [
+        $music = [
             'data' => $results,
             'total' => $totalCount,
             'per_page' => $perPage,
@@ -108,6 +108,6 @@ class MusicRepository implements MusicContract
             'from' => $offset + 1,
             'to' => min($offset + $perPage, $totalCount),
         ];
-        return $musics;
+        return $music;
     }
 }
