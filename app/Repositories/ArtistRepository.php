@@ -21,12 +21,12 @@ class ArtistRepository implements ArtistContract
     {
         $offset = ($page - 1) * $perPage;
 
-        $results = DB::select("SELECT name, dob, address, gender, first_release_year, no_of_albums_released FROM artists LIMIT :perPage OFFSET :offset", [
+        $results = DB::select("SELECT id, name, dob, address, gender, first_release_year, no_of_albums_released FROM artists LIMIT :perPage OFFSET :offset", [
             'perPage' => $perPage,
             'offset' => $offset,
         ]);
 
-        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM users")->count;
+        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM artists")->count;
 
         $pagination = [
             'data' => $results,
@@ -75,7 +75,7 @@ class ArtistRepository implements ArtistContract
             $request['address'],
             $request['first_release_year'],
             $request['no_of_albums_released'],
-            CArbon::now(),
+            Carbon::now(),
             $id,
         ]);
         return true;
@@ -83,7 +83,13 @@ class ArtistRepository implements ArtistContract
 
     public function destroy($id)
     {
-        DB::delete('DELETE FROM artists WHERE id = ?', [$id]);
+        DB::delete(
+            'DELETE artists, musics
+            FROM artists
+            JOIN musics ON artists.id = musics.artist_id
+            WHERE artists.id = ?',
+            [$id]
+        );
         return true;
     }
 }
