@@ -7,18 +7,18 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserResources;
-use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    private $userRepo;
+    private $userService;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(UserService $userService)
     {
-        $this->userRepo = $userRepo;
+        $this->userService = $userService;
     }
 
     /**
@@ -26,11 +26,11 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $users = $this->userRepo->index();
-            return (new UserResources($users))->response()->setStatusCode(200);
+            $users = $this->userService->index($request);
+            return response()->json(["data" => $users])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -48,7 +48,7 @@ class UserController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $user = $this->userRepo->show($id);
+            $user = $this->userService->show($id);
             return (new UserResource($user))->response()->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         try {
             $request = app()->make(StoreRequest::class);
-            $user = $this->userRepo->store($request);
+            $user = $this->userService->store($request);
             return response()->json(["message" => "User Created"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
@@ -87,7 +87,7 @@ class UserController extends Controller
     {
         try {
             $request = app()->make(UpdateRequest::class);
-            $user = $this->userRepo->update($request, $id);
+            $user = $this->userService->update($request, $id);
             return response()->json(["message" => "User Updated"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
@@ -106,7 +106,7 @@ class UserController extends Controller
     public function destroy($id): JsonResponse
     {
         try {
-            $user = $this->userRepo->destroy($id);
+            $user = $this->userService->destroy($id);
             return response()->json(["message" => "User Deleted"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([

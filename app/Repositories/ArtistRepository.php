@@ -17,9 +17,29 @@ class ArtistRepository implements ArtistContract
         $this->artist = $artist;
     }
 
-    public function index()
+    public function index($page = 1, $perPage = 10)
     {
-        return DB::select("SELECT * FROM artists");
+        $offset = ($page - 1) * $perPage;
+
+        $results = DB::select("SELECT name, dob, address, gender, first_release_year, no_of_albums_released FROM artists LIMIT :perPage OFFSET :offset", [
+            'perPage' => $perPage,
+            'offset' => $offset,
+        ]);
+
+        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM users")->count;
+
+        $pagination = [
+            'data' => $results,
+            'total' => $totalCount,
+            'per_page' => $perPage,
+            'current_page' => $page,
+            'last_page' => ceil($totalCount / $perPage),
+            'next_page_url' => null,
+            'prev_page_url' => null,
+            'from' => $offset + 1,
+            'to' => min($offset + $perPage, $totalCount),
+        ];
+        return $pagination;
     }
 
     public function store(Request $request)
@@ -29,7 +49,7 @@ class ArtistRepository implements ArtistContract
             Carbon::createFromFormat('Y-m-d', $request['dob']),
             $request['gender'],
             $request['address'],
-            Carbon::createFromFormat('Y', $request['first_release_year']),
+            $request['first_release_year'],
             $request['no_of_albums_released'],
             Carbon::now(),
             Carbon::now()
@@ -53,7 +73,7 @@ class ArtistRepository implements ArtistContract
             Carbon::createFromFormat('Y-m-d', $request['dob']),
             $request['gender'],
             $request['address'],
-            Carbon::createFromFormat('Y', $request['first_release_year']),
+            $request['first_release_year'],
             $request['no_of_albums_released'],
             CArbon::now(),
             $id,

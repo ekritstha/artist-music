@@ -19,9 +19,29 @@ class UserRepository implements UserContract
         $this->user = $user;
     }
 
-    public function index()
+    public function index($page = 1, $perPage = 10)
     {
-        return DB::select("SELECT * FROM users");
+        $offset = ($page - 1) * $perPage;
+
+        $results = DB::select("SELECT first_name, last_name, email, dob, address, phone, gender FROM users LIMIT :perPage OFFSET :offset", [
+            'perPage' => $perPage,
+            'offset' => $offset,
+        ]);
+
+        $totalCount = DB::selectOne("SELECT COUNT(*) AS count FROM users")->count;
+
+        $pagination = [
+            'data' => $results,
+            'total' => $totalCount,
+            'per_page' => $perPage,
+            'current_page' => $page,
+            'last_page' => ceil($totalCount / $perPage),
+            'next_page_url' => null,
+            'prev_page_url' => null,
+            'from' => $offset + 1,
+            'to' => min($offset + $perPage, $totalCount),
+        ];
+        return $pagination;
     }
 
     public function store(Request $request)
@@ -67,9 +87,6 @@ class UserRepository implements UserContract
 
     public function destroy($id)
     {
-        if($id == Auth()->user()->id) {
-            throw new \Exception("can't delete the logged in user");
-        }
         if(count(DB::select('SELECT id FROM users')) ==1) {
             throw new \Exception("must be at least one user");
         }

@@ -7,18 +7,18 @@ use App\Http\Requests\Artist\StoreRequest;
 use App\Http\Requests\Artist\UpdateRequest;
 use App\Http\Resources\Artist\ArtistResource;
 use App\Http\Resources\Artist\ArtistResources;
-use App\Repositories\ArtistRepository;
+use App\Services\ArtistService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ArtistController extends Controller
 {
-    private $artistRepo;
+    private $artistService;
 
-    public function __construct(ArtistRepository $artistRepo)
+    public function __construct(ArtistService $artistService)
     {
-        $this->artistRepo = $artistRepo;
+        $this->artistService = $artistService;
     }
 
     /**
@@ -26,11 +26,11 @@ class ArtistController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $users = $this->artistRepo->index();
-            return (new ArtistResources($users))->response()->setStatusCode(200);
+            $artists = $this->artistService->index($request);
+            return response()->json(["data" => $artists])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -48,8 +48,8 @@ class ArtistController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $user = $this->artistRepo->show($id);
-            return (new ArtistResource($user))->response()->setStatusCode(200);
+            $artist = $this->artistService->show($id);
+            return (new ArtistResource($artist))->response()->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -67,7 +67,7 @@ class ArtistController extends Controller
     {
         try {
             $request = app()->make(StoreRequest::class);
-            $user = $this->artistRepo->store($request);
+            $artist = $this->artistService->store($request);
             return response()->json(["message" => "Artist Created"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
@@ -87,7 +87,7 @@ class ArtistController extends Controller
     {
         try {
             $request = app()->make(UpdateRequest::class);
-            $user = $this->artistRepo->update($request, $id);
+            $artist = $this->artistService->update($request, $id);
             return response()->json(["message" => "Artist Updated"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
@@ -106,7 +106,7 @@ class ArtistController extends Controller
     public function destroy($id): JsonResponse
     {
         try {
-            $user = $this->artistRepo->destroy($id);
+            $artist = $this->artistService->destroy($id);
             return response()->json(["message" => "Artist Deleted"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([

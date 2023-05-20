@@ -10,7 +10,7 @@ interface UserContract
      * Get a paginated collection of users.
      *
      */
-    public function index();
+    public function index($page, $perPage);
 
     /**
      * Get a specific user by its ID.

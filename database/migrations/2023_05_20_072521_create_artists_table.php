@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->date('dob');
             $table->enum('gender', ['m','f','o']);
             $table->string('address');
-            $table->date('first_release_year');
+            $table->year('first_release_year');
             $table->integer('no_of_albums_released');
             $table->timestamps();
         });
