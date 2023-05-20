@@ -4,36 +4,36 @@ namespace App\Contracts;
 
 use Illuminate\Http\Request;
 
-interface UserContract
+interface ArtistContract
 {
     /**
-     * Get a paginated collection of users.
+     * Get a paginated collection of artists.
      *
      */
     public function index();
 
     /**
-     * Get a specific user by its ID.
+     * Get a specific artist by its ID.
      *
      * @param int $id
-     * @return \App\Models\User
+     * @return \App\Models\Artist
      */
     public function show($id);
 
     /**
-     * Store a new user.
+     * Store a new artist.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \App\Models\User
+     * @return \App\Models\Artist
      */
     public function store(Request $request);
 
     /**
-     * Update an existing user.
+     * Update an existing artist.
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \App\Models\user
+     * @return \App\Models\Artist
      */
     public function update(Request $request, $id);
 

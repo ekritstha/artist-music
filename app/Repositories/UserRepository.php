@@ -26,7 +26,7 @@ class UserRepository implements UserContract
 
     public function store(Request $request)
     {
-        DB::insert('INSERT INTO users (first_name, last_name, email, password, phone, dob, gender, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
+        DB::insert('INSERT INTO users (first_name, last_name, email, password, phone, dob, gender, address, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)', [
             $request['first_name'],
             $request['last_name'],
             $request['email'],
@@ -35,6 +35,8 @@ class UserRepository implements UserContract
             Carbon::createFromFormat('Y-m-d', $request['dob']),
             $request['gender'],
             $request['address'],
+            Carbon::now(),
+            Carbon::now()
         ]);
         return true;
     }
@@ -50,13 +52,14 @@ class UserRepository implements UserContract
 
     public function update(Request $request, $id)
     {
-        DB::update('UPDATE users SET first_name = ?, last_name = ?, phone = ?, dob = ?, gender = ?, address = ? WHERE id = ?', [
+        DB::update('UPDATE users SET first_name = ?, last_name = ?, phone = ?, dob = ?, gender = ?, address = ?, updated_at = ? WHERE id = ?', [
             $request['first_name'],
             $request['last_name'],
             $request['phone'],
             Carbon::createFromFormat('Y-m-d', $request['dob']),
             $request['gender'],
             $request['address'],
+            Carbon::now(),
             $id,
         ]);
         return true;

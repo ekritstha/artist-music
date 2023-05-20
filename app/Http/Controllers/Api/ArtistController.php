@@ -3,34 +3,34 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreRequest;
-use App\Http\Requests\User\UpdateRequest;
-use App\Http\Resources\User\UserResource;
-use App\Http\Resources\User\UserResources;
-use App\Repositories\UserRepository;
+use App\Http\Requests\Artist\StoreRequest;
+use App\Http\Requests\Artist\UpdateRequest;
+use App\Http\Resources\Artist\ArtistResource;
+use App\Http\Resources\Artist\ArtistResources;
+use App\Repositories\ArtistRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class ArtistController extends Controller
 {
-    private $userRepo;
+    private $artistRepo;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(ArtistRepository $artistRepo)
     {
-        $this->userRepo = $userRepo;
+        $this->artistRepo = $artistRepo;
     }
 
     /**
-     * Get a collection of users.
+     * Get a collection of artists.
      *
      * @return JsonResponse
      */
     public function index(): JsonResponse
     {
         try {
-            $users = $this->userRepo->index();
-            return (new UserResources($users))->response()->setStatusCode(200);
+            $users = $this->artistRepo->index();
+            return (new ArtistResources($users))->response()->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -40,7 +40,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get a specific user by its ID.
+     * Get a specific artist by its ID.
      *
      * @param int $id
      * @return JsonResponse
@@ -48,8 +48,8 @@ class UserController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $user = $this->userRepo->show($id);
-            return (new UserResource($user))->response()->setStatusCode(200);
+            $user = $this->artistRepo->show($id);
+            return (new ArtistResource($user))->response()->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -59,7 +59,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a new user.
+     * Store a new artist.
      *
      * @return JsonResponse
      */
@@ -67,8 +67,8 @@ class UserController extends Controller
     {
         try {
             $request = app()->make(StoreRequest::class);
-            $user = $this->userRepo->store($request);
-            return response()->json(["message" => "User Created"])->setStatusCode(200);
+            $user = $this->artistRepo->store($request);
+            return response()->json(["message" => "Artist Created"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -78,7 +78,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update an existing user.
+     * Update an existing artist.
      *
      * @param int $id
      * @return JsonResponse
@@ -87,8 +87,8 @@ class UserController extends Controller
     {
         try {
             $request = app()->make(UpdateRequest::class);
-            $user = $this->userRepo->update($request, $id);
-            return response()->json(["message" => "User Updated"])->setStatusCode(200);
+            $user = $this->artistRepo->update($request, $id);
+            return response()->json(["message" => "Artist Updated"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -98,7 +98,7 @@ class UserController extends Controller
     }
 
     /**
-     * Delete an existing user.
+     * Delete an existing artist.
      *
      * @param int $id
      * @return JsonResponse
@@ -106,8 +106,8 @@ class UserController extends Controller
     public function destroy($id): JsonResponse
     {
         try {
-            $user = $this->userRepo->destroy($id);
-            return response()->json(["message" => "User Deleted"])->setStatusCode(200);
+            $user = $this->artistRepo->destroy($id);
+            return response()->json(["message" => "Artist Deleted"])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

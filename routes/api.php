@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArtistController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ Route::group([], function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class);
+    Route::apiResource('artists', ArtistController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
