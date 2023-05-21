@@ -25,7 +25,7 @@ class DashboardController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'errors' => $e->errors(),
             ]);
         }
     }
@@ -38,7 +38,7 @@ class DashboardController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'errors' => $e->errors(),
             ]);
         }
     }

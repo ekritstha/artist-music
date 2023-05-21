@@ -39,7 +39,7 @@ class AuthController extends Controller
         } catch(\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'errors' => $e->errors(),
             ]);
         }
     }
@@ -49,11 +49,11 @@ class AuthController extends Controller
         try {
             $request = app()->make(RegisterRequest::class);
             $user = $this->userRepo->store($request);
-            return (new UserResource($user))->response()->setStatusCode(200);
+            return response()->json(['errors' => 'User Registered'])->setStatusCode(200);
         } catch(\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'errors' => $e->errors(),
             ]);
         }
     }
@@ -63,11 +63,11 @@ class AuthController extends Controller
         try {
             $user = Auth::user()->token();
             $user->revoke();
-            return response(['message' => 'User Logged Out'])->setStatusCode(200);
+            return response()->json(['errors' => 'User Logged Out'])->setStatusCode(200);
         } catch(\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'errors' => $e->errors(),
             ]);
         }
     }
