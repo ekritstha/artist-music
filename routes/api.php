@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ArtistController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ImportExportController;
 use App\Http\Controllers\Api\MusicController;
 use App\Http\Controllers\Api\UserController;
@@ -31,6 +32,8 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('artists', ArtistController::class);
     Route::apiResource('music', MusicController::class);
     Route::get('music/artists/{artist_id}', [MusicController::class, 'getArtistMusics']);
+    Route::get('dashboard', [DashboardController::class, 'getTotalCounts']);
+    Route::get('me', [DashboardController::class, 'getCurrentUser']);
     Route::get('export', [ImportExportController::class, 'export']);
     Route::post('import', [ImportExportController::class, 'import']);
 

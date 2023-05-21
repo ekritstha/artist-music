@@ -3,20 +3,12 @@
 namespace App\Repositories;
 
 use App\Contracts\MusicContract;
-use App\Models\Music;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MusicRepository implements MusicContract
 {
-    protected $music;
-
-    public function __construct(Music $music)
-    {
-        $this->music = $music;
-    }
-
     public function index($page = 1, $perPage = 10)
     {
         $offset = ($page - 1) * $perPage;
@@ -109,5 +101,10 @@ class MusicRepository implements MusicContract
             'to' => min($offset + $perPage, $totalCount),
         ];
         return $music;
+    }
+
+    public function getTotalNumber()
+    {
+        return DB::selectOne("SELECT COUNT(*) AS count FROM music")->count;
     }
 }

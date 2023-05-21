@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Contracts\UserContract;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,13 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserContract
 {
-    protected $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
     public function index($page = 1, $perPage = 10)
     {
         $offset = ($page - 1) * $perPage;
@@ -92,5 +84,10 @@ class UserRepository implements UserContract
         }
         DB::delete('DELETE FROM users WHERE id = ?', [$id]);
         return true;
+    }
+
+    public function getTotalNumber()
+    {
+        return DB::selectOne("SELECT COUNT(*) AS count FROM users")->count;
     }
 }

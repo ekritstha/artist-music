@@ -3,20 +3,12 @@
 namespace App\Repositories;
 
 use App\Contracts\ArtistContract;
-use App\Models\Artist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ArtistRepository implements ArtistContract
 {
-    protected $artist;
-
-    public function __construct(Artist $artist)
-    {
-        $this->artist = $artist;
-    }
-
     public function index($page = 1, $perPage = 10)
     {
         $offset = ($page - 1) * $perPage;
@@ -97,5 +89,10 @@ class ArtistRepository implements ArtistContract
     {
         $artists = DB::select('SELECT id, name, dob, address, gender, first_release_year, no_of_albums_released FROM artists');
         return $artists;
+    }
+
+    public function getTotalNumber()
+    {
+        return DB::selectOne("SELECT COUNT(*) AS count FROM artists")->count;
     }
 }
