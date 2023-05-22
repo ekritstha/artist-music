@@ -51,7 +51,7 @@ class ArtistRepository implements ArtistContract
 
     public function show($id)
     {
-        $artist = DB::select('SELECT * FROM artists WHERE id = ?', [$id]);
+        $artist = DB::select('SELECT id, name, dob, address, gender, first_release_year, no_of_albums_released FROM artists WHERE id = ?', [$id]);
         if(count($artist) == 0) {
             throw new \Exception('artist not found');
         }

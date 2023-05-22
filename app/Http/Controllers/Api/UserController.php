@@ -34,7 +34,7 @@ class UserController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -49,11 +49,11 @@ class UserController extends Controller
     {
         try {
             $user = $this->userService->show($id);
-            return (new UserResource($user))->response()->setStatusCode(200);
+            return response()->json(["data" => $user])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -72,7 +72,7 @@ class UserController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -92,7 +92,7 @@ class UserController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -111,7 +111,7 @@ class UserController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }

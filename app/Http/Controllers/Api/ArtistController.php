@@ -34,7 +34,7 @@ class ArtistController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -53,7 +53,7 @@ class ArtistController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -72,7 +72,7 @@ class ArtistController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -92,7 +92,7 @@ class ArtistController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -111,7 +111,7 @@ class ArtistController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }

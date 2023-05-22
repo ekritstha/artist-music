@@ -15,7 +15,7 @@ class UserRepository implements UserContract
     {
         $offset = ($page - 1) * $perPage;
 
-        $results = DB::select("SELECT first_name, last_name, email, dob, address, phone, gender FROM users LIMIT :perPage OFFSET :offset", [
+        $results = DB::select("SELECT id, first_name, last_name, email, dob, address, phone, gender FROM users LIMIT :perPage OFFSET :offset", [
             'perPage' => $perPage,
             'offset' => $offset,
         ]);
@@ -38,7 +38,7 @@ class UserRepository implements UserContract
 
     public function store(Request $request)
     {
-        DB::insert('INSERT INTO users (first_name, last_name, email, password, phone, dob, gender, address, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)', [
+        DB::insert('INSERT INTO users (id, first_name, last_name, email, password, phone, dob, gender, address, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)', [
             $request['first_name'],
             $request['last_name'],
             $request['email'],
@@ -55,7 +55,7 @@ class UserRepository implements UserContract
 
     public function show($id)
     {
-        $user = DB::select('SELECT * FROM users WHERE id = ?', [$id]);
+        $user = DB::select('SELECT id, first_name, last_name, email, dob, address, phone, gender FROM users WHERE id = ?', [$id]);
         if(count($user) == 0) {
             throw new \Exception('user not found');
         }

@@ -32,7 +32,7 @@ class MusicController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -51,7 +51,7 @@ class MusicController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -70,7 +70,7 @@ class MusicController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -90,7 +90,7 @@ class MusicController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -109,7 +109,7 @@ class MusicController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
@@ -122,7 +122,7 @@ class MusicController extends Controller
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
-                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
         }
     }
