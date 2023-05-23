@@ -16,14 +16,6 @@ composer install
 
 This will install all the necessary dependencies in your machine.
 
-Then run command:
-
-```bash
-php artisan passport:install
-```
-
-Copy the value of Client secret of Password grant client and paste it in .env to update the values of WEB_PASSPORT_CLIENT_SECRET and ADMIN_PASSPORT_CLIENT_SECRET.
-
 Then we need to migrate the tables using command:
 
 ```bash
@@ -31,6 +23,14 @@ php artisan migrate --seed
 ```
 
 This will also seed an admin user to the user table.
+
+Then run command:
+
+```bash
+php artisan passport:install
+```
+
+Copy the value of Client secret of Password grant client and paste it in .env to update the values of WEB_PASSPORT_CLIENT_SECRET and ADMIN_PASSPORT_CLIENT_SECRET.
 
 To seed artists and music, we need to run
 
