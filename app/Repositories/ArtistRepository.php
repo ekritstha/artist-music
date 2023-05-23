@@ -75,13 +75,8 @@ class ArtistRepository implements ArtistContract
 
     public function destroy($id)
     {
-        DB::delete(
-            'DELETE artists, musics
-            FROM artists
-            JOIN musics ON artists.id = musics.artist_id
-            WHERE artists.id = ?',
-            [$id]
-        );
+        DB::delete('DELETE FROM music WHERE artist_id = ?', [$id]);
+        DB::delete('DELETE FROM artists WHERE id = ?', [$id]);
         return true;
     }
 

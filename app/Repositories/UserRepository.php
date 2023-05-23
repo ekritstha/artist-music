@@ -38,7 +38,7 @@ class UserRepository implements UserContract
 
     public function store(Request $request)
     {
-        DB::insert('INSERT INTO users (id, first_name, last_name, email, password, phone, dob, gender, address, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)', [
+        DB::insert('INSERT INTO users (first_name, last_name, email, password, phone, dob, gender, address, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)', [
             $request['first_name'],
             $request['last_name'],
             $request['email'],

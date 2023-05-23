@@ -118,7 +118,7 @@ class MusicController extends Controller
     {
         try {
             $music = $this->musicService->getArtistMusics($request, $artist_id);
-            return response()->json($music)->setStatusCode(200);
+            return response()->json(["data" => $music])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

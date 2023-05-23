@@ -49,7 +49,7 @@ class ArtistController extends Controller
     {
         try {
             $artist = $this->artistService->show($id);
-            return (new ArtistResource($artist))->response()->setStatusCode(200);
+            return response()->json(["data" => $artist])->setStatusCode(200);
         } catch(Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

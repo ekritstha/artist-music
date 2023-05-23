@@ -82,7 +82,7 @@ class MusicRepository implements MusicContract
     {
         $offset = ($page - 1) * $perPage;
 
-        $results = DB::select("SELECT m.id, m.title, m.album_name, m.genre, a.name AS artist_name FROM music m JOIN artists a ON m.artist_id = a.id LIMIT :perPage OFFSET :offset", [
+        $results = DB::select("SELECT id, title, album_name, genre FROM music WHERE artist_id = $artist_id LIMIT :perPage OFFSET :offset", [
             'perPage' => $perPage,
             'offset' => $offset,
         ]);
